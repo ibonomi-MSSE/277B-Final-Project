@@ -21,7 +21,7 @@ We will use the WHO Catalogue of Mutations in Mycobacterium tuberculosis Complex
 - Aslam, B., et al. "Antimicrobial Resistance: A Growing Serious Threat for Global Public Health." Infection and Drug Resistance, 2023. https://pmc.ncbi.nlm.nih.gov/articles/PMC10340576/
 - Anahtar, M. N., et al. "Applications of Machine Learning to the Problem of Antimicrobial Resistance." PLOS Computational Biology, 2024. https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1012579
 - Centers for Disease Control and Prevention. "Drug-Resistant TB." https://www.cdc.gov/tb/about/drug-resistant.html
-World Health Organization. Catalogue of Mutations in Mycobacterium tuberculosis Complex and Their Association with Drug Resistance, 2nd ed. Geneva: WHO, 2023. https://www.who.int/publications/i/item/9789240082410
+- World Health Organization. Catalogue of Mutations in Mycobacterium tuberculosis Complex and Their Association with Drug Resistance, 2nd ed. Geneva: WHO, 2023. https://www.who.int/publications/i/item/9789240082410
 - Suvvari TK. "The persistent threat of tuberculosis – Why ending TB remains elusive?" J Infect Public Health. 2025. PMC11763180.
 https://pmc.ncbi.nlm.nih.gov/articles/PMC11763180/ 
 - Mugenyi N, et al. "Innovative laboratory methods for improved tuberculosis diagnosis and drug-susceptibility testing." Frontiers in Tuberculosis, 2024. https://www.frontiersin.org/journals/tuberculosis/articles/10.3389/ftubr.2023.1295979/full
