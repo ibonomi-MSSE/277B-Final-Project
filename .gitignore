@@ -1,0 +1,66 @@
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.class
+*.o
+*.a
+*.so
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Package manager locks (optional — remove if you want to commit these)
+# package-lock.json
+# yarn.lock
+
+# Testing
+coverage/
+.nyc_output/
+.pytest_cache/
+htmlcov/
+
+# Misc
+*.bak
+*.tmp
+*.orig
