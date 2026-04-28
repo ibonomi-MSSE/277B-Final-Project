@@ -75,3 +75,10 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC11763180/
 - CRyPTIC Consortium. Comprehensive Resistance Prediction for Tuberculosis: an International Consortium — Datasets. https://crypticproject.info/datasets/ 
 - Phelan JE, et al. "Integrating informatics tools and portable sequencing technology for rapid detection of resistance to anti-tuberculous drugs." Genome Medicine, 2019. https://tbdr.lshtm.ac.uk/ 
 - Feldgarden M, et al. "AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence." Scientific Reports, 2021. https://github.com/ncbi/amr/wiki 
+
+
+
+
+
+
+MTR (Multi-Task Regression) additionally trains the model to predict 200 physicochemical properties computed by RDKit — things like logP, molecular weight, hydrogen bond donors, etc.

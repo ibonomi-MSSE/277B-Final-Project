@@ -64,3 +64,6 @@ htmlcov/
 *.bak
 *.tmp
 *.orig
+
+
+cryptic_consortium_data/data/
