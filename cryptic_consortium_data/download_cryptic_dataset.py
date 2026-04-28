@@ -2,9 +2,9 @@
 """
 Download CRyPTIC dataset files from Zenodo.
 Usage:
-    python download_data.py                  # downloads MUTATIONS.parquet only
-    python download_data.py --all            # downloads all files
-    python download_data.py --files MUTATIONS UKMYC_PHENOTYPES DRUG_CODES
+    python download_cryptic_dataset.py                  # downloads MUTATIONS.parquet only
+    python download_cryptic_dataset.py --all            # downloads all files
+    python download_cryptic_dataset.py --files MUTATIONS UKMYC_PHENOTYPES DRUG_CODES
 """
 
 import argparse
