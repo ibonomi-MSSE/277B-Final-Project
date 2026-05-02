@@ -5,7 +5,10 @@ TODO: I added the GENE_POSITION = 103 and LIMIT 20 to make the query faster. We 
 
 import duckdb
 
-query = """SELECT
+con = duckdb.connect()
+
+query = """
+COPY( SELECT
     m.UNIQUEID,
     m.GENE,
     m.MUTATION,
@@ -32,12 +35,14 @@ LEFT JOIN read_csv('./data/DRUG_CODES.csv.gz') d
     ON p.DRUG = d.DRUG_3_LETTER_CODE
 
 WHERE
-    m.GENE_POSITION = 103
-    AND p.MIC IS NOT NULL
+    p.MIC IS NOT NULL
+    AND p.LOG2MIC IS NOT NULL
+    AND p.BINARY_PHENOTYPE IS NOT NULL
+    AND m.CODES_PROTEIN = TRUE
     AND p.PHENOTYPE_QUALITY IS NOT NULL
     AND m.IS_MINOR = FALSE
-LIMIT 20"""
+) TO './data/cryptic_consortium_data.parquet' WITH (FORMAT PARQUET)
+"""
 
-df = duckdb.sql(query).df()
+con.execute(query)
 
-print(df.head(10))
