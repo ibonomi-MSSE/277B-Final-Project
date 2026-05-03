@@ -1,0 +1,17 @@
+name: chem277B_final
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12 
+  - numpy
+  - matplotlib  
+  - flake8
+  - pandas
+  - duckdb
+  - rdkit
+  - pubchempy
+  - scikit-learn
+  - seaborn
+  - pyarrow
+  
+

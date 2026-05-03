@@ -88,7 +88,8 @@ def mutation_holdout_regressor(data, target_col="ppv", random_state=42):
 
     X = data.drop(columns=["ppv", "resistant", "mutation_key", "position", "drug", "drug_norm"], errors="ignore")
     y = data[target_col]
-    groups_new = data["mutation_key"]
+
+    groups = data["mutation_key"].fillna("unknown_mutation") # it looks like there were 4 unknowns
 
     gkf = GroupKFold(n_splits=5)
     mae_summary = []
@@ -98,7 +99,7 @@ def mutation_holdout_regressor(data, target_col="ppv", random_state=42):
     #let's print the models for each group of mutations hidden
     fig, ax = plt.subplots(1, 5, figsize=(25, 5), sharex=True, sharey=True)
 
-    for fold, (train_idx, test_idx) in enumerate(gkf.split(X, y, groups=groups_new)):
+    for fold, (train_idx, test_idx) in enumerate(gkf.split(X, y, groups=groups)):
         X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
         y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
 
@@ -135,7 +136,7 @@ def mutation_holdout_regressor(data, target_col="ppv", random_state=42):
     plt.tight_layout()
 
     # save the file as a png
-    plt.savefig(f"ppv_mutation_holdout_classifier.png", dpi=300)
+    plt.savefig(f"ppv_mutation_holdout_regressor.png", dpi=300)
     plt.close()
 
     return models, mae_summary, r2_summary
@@ -160,7 +161,8 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
 
     X = data.drop(columns=["ppv", "ppv_bin", "resistant", "mutation_key", "drug", "drug_norm"], errors="ignore")
     y = data[target_col]
-    groups = data["mutation_key"]
+    
+    groups = data["mutation_key"].fillna("unknown_mutation") # it looks like there were 4 unknowns
 
     gkf = GroupKFold(n_splits=5)
     all_results = []
@@ -178,7 +180,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
             f.write(f"Number of unseen mutations: {len(test_mutations)}\n")
             f.write("Sample mutations:\n")
             f.write("\n".join(test_mutations[:10].astype(str)) + "\n")
-
+            
             X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
             y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
         
@@ -216,15 +218,21 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
         metrics_df = pd.DataFrame(metrics)
 
         results_df["correct"] = results_df["actual"] == results_df["predicted"]
+        mean_balanced_accuracy = metrics_df['balanced_accuracy'].mean()
 
         cm = confusion_matrix(results_df["actual"], results_df["predicted"], labels=["0", "1", "2", "3"])
         plt.figure(figsize=(8, 6))
-        sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+        ax = sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
                     xticklabels=["Low Risk", "Moderate Risk", "High Risk", "Very High Risk"],
                     yticklabels=["Low Risk", "Moderate Risk", "High Risk", "Very High Risk"])
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
         plt.title("Confusion Matrix of PPV Bins")
+        plt.text(0.25, 0.95, f'Balanced Accuracy: {mean_balanced_accuracy:.2f}',
+                      verticalalignment='top',
+                      horizontalalignment='right',
+                      transform=ax.transAxes,
+                      bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
 
         # save the file as a png
         plt.savefig(f"ppv_mutation_holdout_classifier.png", dpi=300)
@@ -234,7 +242,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
 
 
 def main():
-    data, data_genomic_positions = full_data_pipeline()
+    data, data_genomic_positions, _ = full_data_pipeline()
 
     model_baseline_regressor = baseline_ppv_model(data)
 
@@ -244,7 +252,7 @@ def main():
 
 
 if __name__ == "__main__":
-    data, data_genomic_positions = full_data_pipeline()
+    data, data_genomic_positions, _ = full_data_pipeline()
 
     model_baseline_regressor = baseline_ppv_model(data)
 

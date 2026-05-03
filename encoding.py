@@ -1,4 +1,4 @@
-from data import main, load_data, clean_data, merge_data, cryptic_MIC_fallback, finalize_data
+from load_data import main, load_data, clean_data, merge_data, cryptic_MIC_fallback, finalize_data
 import re
 import pandas as pd
 from rdkit import Chem
@@ -263,6 +263,8 @@ def get_drug_smiles(data):
     morgan_generator = GetMorganGenerator(radius=2, fpSize=256)
 
     def smiles_to_fingerprint(smiles):
+        if pd.isna(smiles):
+            return None
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None

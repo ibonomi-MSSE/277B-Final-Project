@@ -88,7 +88,7 @@ def ANN_model(data, drug_lookup, target_col="resistant"):
     plt.title("ANN Training Loss Curve")
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
-    plt.savefig(f"ANN_Training Loss Curve.png", dpi=300)
+    plt.savefig(f"ANN_TrainingLossCurve.png", dpi=300)
     plt.close()
 
     return model, balanced_accuracy
