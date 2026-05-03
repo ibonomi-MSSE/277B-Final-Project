@@ -54,7 +54,7 @@ def load_data(WHO: str = "WHO-UCN-TB-2023.6-eng_catalogue_master_file.txt",
               genomic_positions: str = "WHO-UCN-TB-2023.7-eng_genomic_coordinates.txt",
               cryptic_consortium: str = "./cryptic_consortium_data/data/cryptic_consortium_to_who.parquet") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     
-    who_df = pd.read_csv(WHO, sep="\t")
+    who_df = pd.read_csv(WHO, sep="\t", low_memory=False)
     genomic_positions_df = pd.read_csv(genomic_positions, sep="\t")
     cryptic_df = pd.read_parquet(cryptic_consortium)
 
@@ -156,11 +156,7 @@ def finalize_data(merged_file_cryptic):
     final_data = merged_file_cryptic[FINAL_COLS_TO_KEEP].copy()
     final_data = final_data[final_data["ppv"] > 0].copy()
 
-    # check distribution of WHO grades
-    print(final_data["FINAL CONFIDENCE GRADING"].value_counts().sort_index())
-
     return final_data
-
 
 def main():
     who_df, genomic_positions_df, cryptic_df = load_data()
@@ -171,9 +167,6 @@ def main():
 
     return final_data
 
-    print(final_data.head())
-
-
 
 if __name__ == "__main__":
     who_df, genomic_positions_df, cryptic_df = load_data()
@@ -182,5 +175,4 @@ if __name__ == "__main__":
     merged_file_cryptic = cryptic_MIC_fallback(merged_file_cryptic, cryptic_df)
     final_data = finalize_data(merged_file_cryptic)
 
-    print(final_data.head())
 

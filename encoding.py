@@ -25,26 +25,26 @@ COL_TO_KEEP = [
     "has_variant_mic"
 ]
 
+
 def encode_resistance(data):
 
     # Drop the uncertain resistance
     df = data[data['FINAL CONFIDENCE GRADING'] != '3) Uncertain significance'].copy()
 
-    def make_binary_label(data):
-        if "1) Assoc w R" in data or "2) Assoc w R - Interim" in data:
-            return 1
-        elif "4) Not assoc w R - Interim" in data or "5) Not assoc w R" in data:
-            return 0
-        return None
+    grading_scheme = {
+    "5) Not assoc w R": 0,
+    "4) Not assoc w R - Interim": 1,
+    "2) Assoc w R - Interim": 2,
+    "1) Assoc w R": 3
+    }
 
-    df["resistant"] = df["FINAL CONFIDENCE GRADING"].apply(make_binary_label)
+    df["resistant"] = df["FINAL CONFIDENCE GRADING"].map(grading_scheme)
     df_model = df.dropna(subset=["resistant"]).copy()
-
-    print(df_model["resistant"].value_counts())
 
     df_model = df_model.drop(columns=["FINAL CONFIDENCE GRADING"])
 
     return df_model
+
 
 def encode_mutations(data):
     # Splitting the mutation column up to make fewer columns when one hot encoding
@@ -282,10 +282,11 @@ def encode_data(data):
     data_encoded = encode_resistance(data)
     data_encoded = encode_mutations(data_encoded)
     data_encoded = get_drug_smiles(data_encoded)
-
-    #keep track of mapping for later
-    lookup_drugs = dict(enumerate(data["drug"].astype("category").cat.categories))
-    print(lookup_drugs) # this is the mapping of drug names to codes, we will need this to identify the codes for the drugs we want to hold out
+    
+    # keep track of mapping for later
+    lookup_drugs = dict(enumerate(data_encoded["drug"].astype("category").cat.categories))
+    with open("Drug_lookup.txt", "w") as f:
+        f.write(f"Drug encoding map: {lookup_drugs}") # we will need this to identify the codes for the drugs we want to hold out if needed
 
     data_encoded["drug"] = data_encoded["drug"].astype("category").cat.codes
     
@@ -333,15 +334,53 @@ def drop_rare_genes(data, threshold=10):
 
     return data
 
-def main_data_pipeline():
+def genomic_positions(data):
+
+    gene_key = data.filter(like="gene_").idxmax(axis=1)
+    data["mutation_key"] = gene_key + "_" + data['position'].astype(str)
+
+    myco = pd.read_csv("Mycobacterium_tuberculosis_H37Rv_txt_v5.txt", sep="\t")
+    myco.columns = myco.columns.str.strip() # strip column names of whitespace
+
+    myco['gene_length'] = myco['Stop'] - myco['Start'] + 1
+    myco_subset = myco[['Refseq_ID', 'Start', 'Stop', 'Name','gene_length']].copy()
+
+    new_data = data.copy()
+    needed_genes = new_data.filter(like="gene_").columns.str.replace("gene_", "", regex=False)
+    
+    matched_myco = myco_subset[myco_subset['Name'].isin(needed_genes)].copy()
+    gene_cols = [c for c in new_data.columns if c.startswith("gene_") and not c.startswith("gene_length")]
+
+    new_data['gene_name'] = new_data[gene_cols].idxmax(axis=1).str.replace("gene_", "", regex=False).str.lower()
+    matched_myco['gene_name'] = matched_myco['Name'].str.strip().str.lower()
+
+    new_data = new_data.merge(matched_myco[['gene_name', 'gene_length', 'Start', 'Stop']], on='gene_name', how='left')
+    new_data = new_data.drop(columns=['gene_name'])
+
+    ## add relative position of mutation in the gene
+    new_data['relative_position'] = (new_data['position'] - new_data['Start']) + 1
+    new_data['norm_position'] = new_data['relative_position'] / new_data['gene_length']
+    new_data = new_data.drop(columns=['Start', 'Stop'])
+
+    ## change to distances
+    new_data['distance_to_end'] = new_data['gene_length'] - new_data['relative_position']
+    new_data['codon_position'] = new_data['relative_position'] % 3
+    new_data = new_data.drop(columns=['relative_position', 'gene_length'], errors="ignore")
+    
+    return new_data
+
+
+
+def full_data_pipeline():
     data = main()
     data = encode_data(data)
     data = drop_rare_genes(data)
 
-    return data
+    genomic_positions_data = data.copy()
+    data_genomic_positions = genomic_positions(genomic_positions_data)
+
+    return data, data_genomic_positions
 
 
 if __name__ == "__main__":
-    data = main_data_pipeline()
-
-    print(data.head())
+    data = full_data_pipeline()
