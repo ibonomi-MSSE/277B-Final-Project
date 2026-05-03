@@ -308,7 +308,7 @@ def encode_data(data):
         errors="ignore"
     )
 
-    return final_ml
+    return final_ml, lookup_drugs
 
 def drop_rare_genes(data, threshold=10):
     gene_cols = [c for c in data.columns if c.startswith("gene_")]
@@ -373,14 +373,14 @@ def genomic_positions(data):
 
 def full_data_pipeline():
     data = main()
-    data = encode_data(data)
-    data = drop_rare_genes(data)
+    data_encoded, drug_lookup = encode_data(data)
+    data_clean = drop_rare_genes(data_encoded)
 
-    genomic_positions_data = data.copy()
+    genomic_positions_data = data_clean.copy()
     data_genomic_positions = genomic_positions(genomic_positions_data)
 
-    return data, data_genomic_positions
+    return data_clean, data_genomic_positions, drug_lookup
 
 
 if __name__ == "__main__":
-    data = full_data_pipeline()
+    data, data_genomic_positions, drug_lookup = full_data_pipeline()
