@@ -16,6 +16,10 @@ Tuberculosis remains a leading cause of infectious disease mortality worldwide (
 We will use the WHO Catalogue of Mutations in Mycobacterium tuberculosis Complex (2nd edition, 2023), which documents over 30,000 variants and their statistical association with phenotypic resistance across 13 anti-TB medicines derived from over 52,000 clinical isolates. Each drug will be represented as a Morgan fingerprint derived from its SMILES string, capturing structural features of the compound; if time allows, we may explore a graph neural network to encode molecular structure directly. Each mutation will be encoded as a binary vector over known resistance-associated loci, representing shortened genomic information about the strain. The target variable is the WHO's five-tier final confidence grading, ranging from "Associated with resistance" to "Not associated with resistance," framed as a multi-class classification task. Because these grades are ordinal in nature, we will explore weighted loss functions that penalize distant misclassifications more heavily than adjacent ones. We will begin with baseline models — decision trees and logistic regression — before progressing to neural networks with softmax activation and categorical cross-entropy loss. We will evaluate model performance using per-class precision, recall, and F1 score, macro-averaged AUROC, and a confusion matrix analysis to assess whether errors cluster among neighboring grades.
 
 
+### Running the Repository
+1. Setup Environment and install dependencies --> run `make environment` in terminal, then `conda activate chem277B_final`
+
+
 https://drive.google.com/drive/u/2/folders/1usd-0emAE4fsrLM06mPvc8KE4D4zZ99c
 
 https://docs.google.com/presentation/d/1S5QJCk8jEvOjo_Hr15olUKgpznAY1tFwrtyypHOROsk/edit?slide=id.g3d6dca701ac_0_3#slide=id.g3d6dca701ac_0_3
