@@ -5,6 +5,7 @@ ENVIRONMENT=chem277B_final
 
 environment:
 	conda env create -f environment.yaml
+	conda activate $(ENVIRONMENT)
 
 TargetWHO:
 	echo "Running all models on target WHO Resistance Grades..."

@@ -66,4 +66,4 @@ htmlcov/
 *.orig
 
 
-cryptic_consortium_data/data/
+data/cryptic_consortium_data/data/
