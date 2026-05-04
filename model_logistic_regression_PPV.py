@@ -76,7 +76,9 @@ def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=
             XS_test = pd.DataFrame(XS_test, columns=X_test.columns)
 
             # Run a logistic regression model as a baseline
-            model = LogisticRegression(solver="lbfgs", max_iter=1000, random_state=random_state, class_weight='balanced')
+            model = LogisticRegression(solver="lbfgs", max_iter=1000,
+                                       random_state=random_state, class_weight='balanced',
+                                       C=0.1)
             model.fit(XS_train, y_train, sample_weight=sample_weights)
             y_pred = model.predict(XS_test)
 
@@ -112,7 +114,7 @@ def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=
         
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
-        plt.title("Confusion Matrix of PPV Bins")
+        plt.title("Confusion Matrix Logistic Regression Target PPV")
 
         plt.text(0.25, 0.95, f'Balanced Accuracy: {mean_balanced_accuracy:.2f}',
                       verticalalignment='top',

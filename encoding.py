@@ -403,4 +403,5 @@ def full_data_pipeline():
 
 if __name__ == "__main__":
     data, data_genomic_positions, drug_lookup = full_data_pipeline()
+    print(data_genomic_positions.shape)
 
