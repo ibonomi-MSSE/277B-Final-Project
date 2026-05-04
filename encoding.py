@@ -1,4 +1,5 @@
 from load_data import main, load_data, clean_data, merge_data, cryptic_MIC_fallback, finalize_data
+from chemberta import drug_embeddings
 import re
 import pandas as pd
 from rdkit import Chem
@@ -280,10 +281,26 @@ def get_drug_smiles(data):
     final_data = data.merge(TB_drugs, on="drug", how="left")
     return final_data
 
+def ChemBerta_embedding(data):
+    # Adding drug embedding columns
+    col_name = [f"drug_embedding_{i}" for i in range(len(drug_embeddings['Amikacin']))]
+
+    embeddings = data['drug'].map(drug_embeddings)
+    chemberta_df = pd.DataFrame(
+        embeddings.tolist(),
+        index=data.index,
+        columns=col_name
+    )
+
+    data = pd.concat([data, chemberta_df], axis=1)
+
+    return data
+
 def encode_data(data):
     data_encoded = encode_resistance(data)
     data_encoded = encode_mutations(data_encoded)
     data_encoded = get_drug_smiles(data_encoded)
+    data_encoded = ChemBerta_embedding(data_encoded)
     
     # keep track of mapping for later
     lookup_drugs = dict(enumerate(data_encoded["drug"].astype("category").cat.categories))
@@ -386,3 +403,4 @@ def full_data_pipeline():
 
 if __name__ == "__main__":
     data, data_genomic_positions, drug_lookup = full_data_pipeline()
+
