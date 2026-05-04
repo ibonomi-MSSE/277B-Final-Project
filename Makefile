@@ -5,6 +5,7 @@ ENVIRONMENT=chem277B_final
 
 environment:
 	conda env create -f environment.yaml
+	conda activate $(ENVIRONMENT)
 
 TargetWHO:
 	echo "Running all models on target WHO Resistance Grades..."
@@ -21,3 +22,4 @@ clean:
 	echo "Removing images..."
 	rm -f ANN_model.png baseline_LogReg_random_split.png Drug_lookup.txt ANN_TrainingLossCurve.png PCA_Logistic_regression.png Logistic_regression_3Drug_holdout.png
 	rm -f baseline_ppv_random_split.png mutation_holdout_classifier_reports.txt ppv_mutation_holdout_classifier.png ppv_mutation_holdout_regressor.png
+
