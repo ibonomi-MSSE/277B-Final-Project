@@ -84,7 +84,7 @@ def baseline_logistic_model(data, target_col="resistant"):
 def drug_holdout_logistic_model(data, drug_lookup, target_col="resistant"):
     print(f"Running Logistic Regression hiding 3 drugs (included are 2 structurally similar) ...")
 
-    holdout_drugs = ['Amikacin', 'Kanamycin', 'Capreomycin']
+    holdout_drugs = ['Amikacin', 'Kanamycin', 'Streptomycin']
     holdout_codes = [code for code, drug in drug_lookup.items() if drug in holdout_drugs]
 
     stress_test = data.copy()
@@ -155,7 +155,7 @@ def drug_holdout_logistic_model(data, drug_lookup, target_col="resistant"):
 def PCA_logistic_model(data, drug_lookup, target_col="resistant"):
     print(f"Running Logistic Regression with PCA ...")
 
-    holdout_drugs = ['Amikacin', 'Kanamycin', 'Capreomycin']
+    holdout_drugs = ['Amikacin', 'Kanamycin', 'Streptomycin']
     holdout_codes = [code for code, drug in drug_lookup.items() if drug in holdout_drugs]
 
     stress_test = data.copy()
@@ -228,7 +228,7 @@ def PCA_logistic_model(data, drug_lookup, target_col="resistant"):
 def ANN_model(data, drug_lookup, target_col="resistant"):
     print(f"Running ANN on Drug holdout...")
 
-    holdout_drugs = ['Amikacin', 'Kanamycin', 'Capreomycin']
+    holdout_drugs = ['Amikacin', 'Kanamycin', 'Streptomycin']
     holdout_codes = [code for code, drug in drug_lookup.items() if drug in holdout_drugs]
 
     stress_test = data.copy()
