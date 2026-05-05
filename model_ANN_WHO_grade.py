@@ -4,18 +4,20 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
-
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 from sklearn.metrics import balanced_accuracy_score
-import pandas as pd
 import numpy as np
+import os
+
+OUTPUT_DIR = "final_model_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 def ANN_model(data, drug_lookup, target_col="resistant"):
-    print(f"Running ANN on Drug holdout...")
+    print(f"Running ANN testing 3 unseen drugs  ......")
 
-    holdout_drugs = ['Amikacin', 'Kanamycin', 'Capreomycin']
+    holdout_drugs = ['Amikacin', 'Kanamycin', 'Streptomycin']
     holdout_codes = [code for code, drug in drug_lookup.items() if drug in holdout_drugs]
 
     stress_test = data.copy()
@@ -80,15 +82,7 @@ def ANN_model(data, drug_lookup, target_col="resistant"):
     plt.tight_layout()
 
     # save the file as a png
-    plt.savefig(f"ANN_model.png", dpi=300)
-    plt.close()
-
-
-    plt.plot(model.loss_curve_)
-    plt.title("ANN Training Loss Curve")
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    plt.savefig(f"ANN_TrainingLossCurve.png", dpi=300)
+    plt.savefig(os.path.join(OUTPUT_DIR,"ANN_model_WHO.png"), dpi=300)
     plt.close()
 
     return model, balanced_accuracy

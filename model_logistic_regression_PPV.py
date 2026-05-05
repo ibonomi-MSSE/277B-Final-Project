@@ -1,20 +1,17 @@
 from encoding import full_data_pipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-import statsmodels.api as sm
-from sklearn.neural_network import MLPClassifier
-
 import seaborn as sns
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.model_selection import GroupKFold
 import pandas as pd
-import numpy as np
+import os
+
+OUTPUT_DIR = "final_model_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=42):
@@ -48,7 +45,7 @@ def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=
     all_results = []
     metrics = []
 
-    with open("logistic_regression_PPV_classifier_reports.txt", "w") as f:
+    with open(os.path.join(OUTPUT_DIR, "Logistic_Regression_PPV_bin_reports.txt"), "w") as f:
         for fold, (train_idx, test_idx) in enumerate(gkf.split(X, y, groups)):
 
             # write the results to a txt file
@@ -114,7 +111,7 @@ def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=
         
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
-        plt.title("Confusion Matrix Logistic Regression Target PPV")
+        plt.title("Logistic Regression Confusion Matrix Target PPV")
 
         plt.text(0.25, 0.95, f'Balanced Accuracy: {mean_balanced_accuracy:.2f}',
                       verticalalignment='top',
@@ -123,7 +120,7 @@ def logistic_regression_ppv_classifier(data, target_col="ppv_bin", random_state=
                       bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
 
         # save the file as a png
-        plt.savefig(f"logistic_regression_ppv_classifier.png", dpi=300)
+        plt.savefig(os.path.join(OUTPUT_DIR, "Logistic_Regression_PPV_bin.png"), dpi=300)
         plt.close()
     
     return metrics_df, results_df

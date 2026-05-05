@@ -15,10 +15,11 @@ TargetWHO:
 TargetPPV:
 	echo "Running all models on target PPV..."
 	python model_RandomForest_PPV.py
+	python model_logistic_regression_ppv.py
+	python model_ANN_PPV.py
 	echo "Success!"
 
 clean:
-	echo "Removing images..."
-	rm -f ANN_model.png baseline_LogReg_random_split.png Drug_lookup.txt ANN_TrainingLossCurve.png PCA_Logistic_regression.png Logistic_regression_3Drug_holdout.png
-	rm -f baseline_ppv_random_split.png mutation_holdout_classifier_reports.txt ppv_mutation_holdout_classifier.png ppv_mutation_holdout_regressor.png
-	rm -f logistic_regression_PPV_classifier_reports.txt logistic_regression_ppv_classifier.png
+	echo "Removing outputs folder..."
+	rm -rf final_model_outputs
+	rm -f Drug_lookup.txt

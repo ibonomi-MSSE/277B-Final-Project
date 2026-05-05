@@ -8,7 +8,10 @@ from sklearn.model_selection import GroupKFold
 from sklearn.metrics import balanced_accuracy_score
 import seaborn as sns
 import pandas as pd
-import numpy as np
+import os
+
+OUTPUT_DIR = "final_model_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 
@@ -74,7 +77,7 @@ def baseline_ppv_model(data, target_col="ppv", test_size=0.2, random_state=42):
     plt.tight_layout()
 
     # save the file as a png
-    plt.savefig(f"baseline_ppv_random_split.png", dpi=300)
+    plt.savefig(os.path.join(OUTPUT_DIR, "RandomForest_random_split_PPV.png"), dpi=300)
     plt.close()
 
     return model
@@ -136,7 +139,7 @@ def mutation_holdout_regressor(data, target_col="ppv", random_state=42):
     plt.tight_layout()
 
     # save the file as a png
-    plt.savefig(f"ppv_mutation_holdout_regressor.png", dpi=300)
+    plt.savefig(os.path.join(OUTPUT_DIR, "RandomForest_mutation_holdout_PPV.png"), dpi=300)
     plt.close()
 
     return models, mae_summary, r2_summary
@@ -168,7 +171,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
     all_results = []
     metrics = []
 
-    with open("mutation_holdout_classifier_reports.txt", "w") as f:
+    with open(os.path.join(OUTPUT_DIR, "mutation_holdout_classifier_reports.txt"), "w") as f:
         for fold, (train_idx, test_idx) in enumerate(gkf.split(X, y, groups)):
 
             # write the results to a txt file
@@ -227,7 +230,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
                     yticklabels=["Low Risk", "Moderate Risk", "High Risk", "Very High Risk"])
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
-        plt.title("Confusion Matrix of PPV Bins")
+        plt.title("Random Forest Confusion Matrix of PPV Bins")
         plt.text(0.25, 0.95, f'Balanced Accuracy: {mean_balanced_accuracy:.2f}',
                       verticalalignment='top',
                       horizontalalignment='right',
@@ -235,7 +238,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
                       bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
 
         # save the file as a png
-        plt.savefig(f"ppv_mutation_holdout_classifier.png", dpi=300)
+        plt.savefig(os.path.join(OUTPUT_DIR, "RandomForest_mutation_holdout_PPV_bins.png"), dpi=300)
         plt.close()
     
     return metrics_df, results_df
