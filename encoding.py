@@ -358,7 +358,7 @@ def genomic_positions(data):
     gene_key = data.filter(like="gene_").idxmax(axis=1)
     data["mutation_key"] = gene_key + "_" + data['position'].astype(str)
 
-    myco = pd.read_csv("Mycobacterium_tuberculosis_H37Rv_txt_v5.txt", sep="\t")
+    myco = pd.read_csv("./data/Mycobacterium_tuberculosis_H37Rv_txt_v5.txt", sep="\t")
     myco.columns = myco.columns.str.strip() # strip column names of whitespace
 
     myco['gene_length'] = myco['Stop'] - myco['Start'] + 1
