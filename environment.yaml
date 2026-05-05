@@ -18,5 +18,6 @@ dependencies:
   - umap-learn
   - pyarrow
   - pip
+  - pytorch
   - pip:
     - pubchempy

@@ -50,9 +50,9 @@ def normalize_str(string):
     return (str(string).strip().replace(" ", "").lower())
 
 
-def load_data(WHO: str = "WHO-UCN-TB-2023.6-eng_catalogue_master_file.txt",
-              genomic_positions: str = "WHO-UCN-TB-2023.7-eng_genomic_coordinates.txt",
-              cryptic_consortium: str = "./cryptic_consortium_data/data/cryptic_consortium_to_who.parquet") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def load_data(WHO: str = "./data/WHO_data/WHO-UCN-TB-2023.6-eng_catalogue_master_file.txt",
+              genomic_positions: str = "./data/WHO_data/WHO-UCN-TB-2023.7-eng_genomic_coordinates.txt",
+              cryptic_consortium: str = "./data/cryptic_consortium_to_who.parquet") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     
     who_df = pd.read_csv(WHO, sep="\t", low_memory=False)
     genomic_positions_df = pd.read_csv(genomic_positions, sep="\t")
