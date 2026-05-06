@@ -21,3 +21,7 @@ dependencies:
   - pytorch
   - pip:
     - pubchempy
+  - xgboost
+  - lightgbm
+  - catboost
+
