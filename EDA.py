@@ -136,36 +136,28 @@ plt.tight_layout()
 plt.savefig(os.path.join(OUTPUT_DIR, "UMAP Projection - Drug Resistance Patterns.png"), dpi =300)
 
 
-"""
-# -------------------------
-# Correlation Heatmap
-# -------------------------
+# ---------------------------------------
+# Correlation Heatmap of Top 20 Features
+# ---------------------------------------
 
-# Calculate correlation matrix
-# Only use numeric columns (skip the target if it's in the dataframe)
-corr_features = X_processed.copy()
+# Compute correlation matrix
+corr_matrix = X_processed.corr().abs()
 
-# Option 1: Full correlation matrix (might be large)
-plt.figure(figsize=(16, 14))
-correlation_matrix = corr_features.corr()
+# Unstack and sort correlations (excluding self-correlations)
+corr_pairs = corr_matrix.unstack()
+corr_pairs = corr_pairs[corr_pairs < 1.0]
+top_pairs = corr_pairs.sort_values(ascending=False)
 
-# Create mask for upper triangle
-mask = np.triu(np.ones_like(correlation_matrix, dtype=bool), k=1)
+# Get top correlated feature names
+top_features = list(set([i for i, j in top_pairs.index[:40]]))  # ~20 pairs → ~20 features
+top_features = top_features[:20]
+
+# Subset correlation matrix
+top_corr_matrix = X_processed[top_features].corr()
 
 # Plot heatmap
-sns.heatmap(correlation_matrix, 
-            mask=mask,
-            cmap='RdBu_r',  # Red-Blue diverging colormap
-            center=0,        # Center colormap at 0
-            annot=False,     # Set to True if you have few features
-            fmt='.2f',
-            square=True,
-            linewidths=0.5,
-            cbar_kws={"shrink": 0.8},
-            vmin=-1, 
-            vmax=1)
-
-plt.title('Feature Correlation Matrix', fontsize=16, pad=20)
+plt.figure(figsize=(10, 8))
+sns.heatmap(top_corr_matrix, cmap='RdBu_r', center=0, square=True)
+plt.title("Top 20 Most Correlated Features")
 plt.tight_layout()
 plt.show()
-"""
