@@ -33,6 +33,8 @@ TargetBoosting:
 clean:
 	echo "Removing outputs folder..."
 	rm -rf final_model_outputs
+	rm -rf EDA_outputs
 	rm -f Drug_lookup.txt
 	echo "Removing images..."
 	rm -f boosting_PPV_classifier_reports.txt boosting_PPV_summary.csv boosting_PPV_confusion_matrix.png
+

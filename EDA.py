@@ -7,12 +7,17 @@ import matplotlib.cm as cm
 import numpy as np
 import seaborn as sns
 import umap
+import os
+
+OUTPUT_DIR = "EDA_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # 1. Load processed data
 data_clean, data_genomic_positions, drug_lookup = full_data_pipeline()
 
 # Choosing the dataset with genomic positions for EDA
 df = data_genomic_positions.copy()
+df.head()
 
 # 2. Separate features and target
 y = df["resistant"]
@@ -62,7 +67,9 @@ plt.ylabel("Cumulative Explained Variance")
 plt.title("PCA Explained Variance")
 plt.xlim(1, 15)  # Focus on the first 15 components
 plt.grid(True, alpha=0.3)
-plt.show()
+
+plt.savefig(os.path.join(OUTPUT_DIR, "PCA Explained Variance.png"), dpi=300)
+plt.close()
 
 # print the number of components needed to explain 95% of the variance
 n_components_95 = np.argmax(cumulative_var >= 0.95) + 1
@@ -117,7 +124,8 @@ for i, label in enumerate(sorted(umap_df["resistant"].unique())):
                alpha=0.6, 
                c=[colors[i]],
                edgecolors='white',
-               linewidth=0.5)
+               linewidth=0.5,
+               )
 
 plt.xlabel("UMAP1")
 plt.ylabel("UMAP2")
@@ -125,7 +133,9 @@ plt.title("UMAP Projection - Drug Resistance Patterns")
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "UMAP Projection - Drug Resistance Patterns.png"), dpi =300)
+
+
 """
 # -------------------------
 # Correlation Heatmap
