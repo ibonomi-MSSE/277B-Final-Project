@@ -25,14 +25,17 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix,
 )
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
 import warnings
+import os
 
 warnings.filterwarnings("ignore")
+
+OUTPUT_DIR = "final_model_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 def add_ppv_bin(data):
@@ -104,7 +107,7 @@ def evaluate_boosters(data, target_col="ppv_bin", random_state=42):
     summary_rows = []
     fold_predictions = {name: [] for name in models}
 
-    with open("boosting_PPV_classifier_reports.txt", "w") as f:
+    with open(os.path.join(OUTPUT_DIR, "boosting_PPV_classifier_reports.txt"), "w") as f:
         for model_name, clf in models.items():
             header = f"==================== Evaluating {model_name} ===================="
             print(f"\n{header}")
@@ -187,7 +190,7 @@ def plot_confusion_matrices(fold_predictions, save_path="boosting_PPV_confusion_
         ax.set_title(f"{name}\nBalanced Acc: {bal:.3f}")
     fig.suptitle("Confusion Matrices of PPV Bins — Boosting Methods")
     plt.tight_layout()
-    plt.savefig(save_path, dpi=200, bbox_inches="tight")
+    plt.savefig(os.path.join(OUTPUT_DIR, save_path), dpi=200, bbox_inches="tight")
     plt.close()
 
 
@@ -199,7 +202,7 @@ def main():
 
     print("\nSummary of Model Performance (Averaged over 5 Folds):")
     print(summary_df.to_string(index=False))
-    summary_df.to_csv("boosting_PPV_summary.csv", index=False)
+    summary_df.to_csv(os.path.join(OUTPUT_DIR, "boosting_PPV_summary.csv"), index=False)
     print("Saved boosting_PPV_summary.csv and boosting_PPV_classifier_reports.txt")
 
     plot_confusion_matrices(fold_predictions)

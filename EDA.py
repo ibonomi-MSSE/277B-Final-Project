@@ -87,7 +87,7 @@ umap_model = umap.UMAP(
     n_neighbors=min(15, len(X_for_umap) - 1),  # Handle small datasets
     min_dist=0.1,
     n_components=2,
-    random_state=42
+    random_state=42,
 )
 
 X_umap = umap_model.fit_transform(X_for_umap)

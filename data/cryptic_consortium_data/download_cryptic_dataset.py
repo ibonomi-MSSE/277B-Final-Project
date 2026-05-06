@@ -41,7 +41,8 @@ FILES = {
     "RELEASE_NOTES.md":                 {"md5": "dfac1d2007ad30bb749f7bb3bcb9645b", "size": "18.8 kB"},
 }
 
-DATA_DIR = Path("data")
+PROJECT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT / "data"
 
 
 def md5_file(path: Path) -> str:
@@ -113,7 +114,9 @@ def main():
                 sys.exit(1)
     else:
         # Default: just MUTATIONS
-        to_download = {"MUTATIONS.parquet": FILES["MUTATIONS.parquet"]}
+        to_download = {"MUTATIONS.parquet": FILES["MUTATIONS.parquet"],
+                       "UKMYC_PHENOTYPES.parquet": FILES["UKMYC_PHENOTYPES.parquet"],
+                       "DRUG_CODES.csv.gz": FILES["DRUG_CODES.csv.gz"]}
 
     print(f"Downloading {len(to_download)} file(s) to {DATA_DIR.resolve()}/\n")
     failures = []

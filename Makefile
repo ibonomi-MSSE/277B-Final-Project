@@ -1,11 +1,22 @@
 # Makefile for setting up the environment and running peptide visualization
-.PHONY: environment TargetWHO TargetPPV TargetBoosting clean test # .PHONY is added when target dependencies are not files.
+.PHONY: environment Data TargetWHO TargetPPV clean test # .PHONY is added when target dependencies are not files.
 
 ENVIRONMENT=chem277B_final
 
 environment:
 	conda env create -f environment.yaml
 	conda activate $(ENVIRONMENT)
+
+Data:
+	echo "Downloading Cryptic data... give me a sec!"
+	python data/cryptic_consortium_data/download_cryptic_dataset.py
+	echo "Creating Cryptic data... just a little longer!"
+	python data/cryptic_consortium_data/create_cryptic_consortium_data.py
+	echo "Querying Cryptic data... almost there!"
+	python data/cryptic_consortium_data/query.py
+	echo "Transforming Cryptic data... last step!"
+	python data/cryptic_consortium_data/transform.py
+	echo "Success! You're ready to train some models!"
 
 TargetWHO:
 	echo "Running all models on target WHO Resistance Grades..."
@@ -18,23 +29,15 @@ TargetPPV:
 	python model_RandomForest_PPV.py
 	python model_logistic_regression_ppv.py
 	python model_ANN_PPV.py
-	echo "Success!"
-
-TargetBoosting:
-	echo "Running boosting-method exploration on target PPV bin..."
-	python model_boosting_PPV.py
-	echo "Success!"
-
-TargetBoosting:
 	echo "Running boosting-method exploration on target PPV bin..."
 	python model_boosting_PPV.py
 	echo "Success!"
 
 clean:
-	echo "Removing outputs folder..."
+	echo "Removing model outputs and EDA folders..."
 	rm -rf final_model_outputs
 	rm -rf EDA_outputs
 	rm -f Drug_lookup.txt
-	echo "Removing images..."
-	rm -f boosting_PPV_classifier_reports.txt boosting_PPV_summary.csv boosting_PPV_confusion_matrix.png
+	rm -rf catboost_info
+
 
