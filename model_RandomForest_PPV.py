@@ -171,7 +171,7 @@ def mutation_holdout_classifier(data, target_col="ppv_bin", random_state=42):
     all_results = []
     metrics = []
 
-    with open(os.path.join(OUTPUT_DIR, "mutation_holdout_classifier_reports.txt"), "w") as f:
+    with open(os.path.join(OUTPUT_DIR, "RandomForest_mutation_holdout_classifier_reports.txt"), "w") as f:
         for fold, (train_idx, test_idx) in enumerate(gkf.split(X, y, groups)):
 
             # write the results to a txt file

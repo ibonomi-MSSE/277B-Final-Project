@@ -12,7 +12,7 @@ Cris Zong, Ethan Chan, Isabella Beatrice Bonomi, Robert Craig Wallace, Sidney Al
 ### Background
 Tuberculosis remains a leading cause of infectious disease mortality worldwide (Suvvari, 2025), with multidrug-resistant and extensively drug-resistant strains presenting an escalating threat to global public health. Phenotypic drug susceptibility testing, while considered the gold standard, requires weeks (Mugenyi et al., 2024) to yield results due to the slow growth of Mycobacterium tuberculosis, delaying the initiation of effective treatment. Genotypic approaches based on whole-genome sequencing offer a rapid alternative by identifying mutations associated with drug resistance, but current interpretation frameworks (Hunt et al., 2019) function as static lookup tables that treat each drug as a categorical label, without leveraging the structural chemistry of the drugs themselves. The objective of this project is to develop a model that predicts antimicrobial resistance by jointly encoding a genetic mutation and a molecular representation of the drug, enabling the model to learn relationships between mutational context and drug chemistry and potentially generalize to novel mutations.
 
-### Datasets
+### Datasets and Model Structure
 Our main dataset is the WHO Catalogue of Mutations in Mycobacterium tuberculosis Complex (2nd edition, 2023), which documents over 30,000 variants and their statistical association with phenotypic resistance across 13 anti-TB medicines derived from over 52,000 clinical isolates. 
 
 To support our structure-aware framework, we integrated both genetic and chemical information. Mutation data was custom encoded into machine-learning-compatible features using a parser to break down protein and RNA/DNA level mutations into their associated mutation types (e.g., frameshift, deletion, nonsense, duplication). We used Mycobrowser to facilitate genomic structure embeddings of the mutations. This allows for our model to understand the importance of the positioning of the mutation(s) and its relationship to resistance.
@@ -25,7 +25,8 @@ Given the limited number of drugs in the dataset (15 TB drugs) and the ambiguity
 
 ### Running the Repository
 1. Setup Environment and install dependencies --> run `make environment` in terminal, then `conda activate chem277B_final`
-2. To run EDA run `make EDA`.
+2. We will first need to download the Cryptic Consortium Data set. To get the data run `make Data`.
+2. To create EDA visuals run `make EDA`.
 3. To run all models on the initial target `WHO Resistance Grades` run `make TargetWHO`.
 4. To run all models on our final target `PPV` (Positive Predicted Value) run `make TargetPPV`.
 Notes: All EDA outputs will be in a folder named `EDA_outputs` and all model outputs will be saved in a folder named `final_model_outputs`
@@ -86,7 +87,6 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC11763180/
 - CRyPTIC Consortium. Comprehensive Resistance Prediction for Tuberculosis: an International Consortium — Datasets. https://crypticproject.info/datasets/ 
 - Phelan JE, et al. "Integrating informatics tools and portable sequencing technology for rapid detection of resistance to anti-tuberculous drugs." Genome Medicine, 2019. https://tbdr.lshtm.ac.uk/ 
 - Feldgarden M, et al. "AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence." Scientific Reports, 2021. https://github.com/ncbi/amr/wiki 
-
 
 
 

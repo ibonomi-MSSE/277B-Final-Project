@@ -18,6 +18,11 @@ Data:
 	python data/cryptic_consortium_data/transform.py
 	echo "Success! You're ready to train some models!"
 
+EDA:
+	echo "Running EDA..."
+	python EDA.py
+	echo "Success!"
+
 TargetWHO:
 	echo "Running all models on target WHO Resistance Grades..."
 	python model_Logistic_Regression_WHO_grade.py
