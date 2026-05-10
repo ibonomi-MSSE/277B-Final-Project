@@ -91,3 +91,28 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC11763180/
 
 
 MTR (Multi-Task Regression) additionally trains the model to predict 200 physicochemical properties computed by RDKit — things like logP, molecular weight, hydrogen bond donors, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+TODO: 
+- show the number of unique mutations and genes (do the bar plot like the plot of fly species)
+- show tanimoto coefficients for the drugs to motivate doing the holdout by scaffold. Then graph a umap of
+the chemberta embeddings to make sure the similar drugs cluster together
+- filter the dataset - if a mutation is seen < X number of times, dont include it. Dont include rows without a log2mic
+- get final columns - create different functions to create different datasets. One hot drugs, chemberta drugs, morgan fingerprint drugs, custom drug embeddings, custom gene/position embedding, one hot gene, one hot position
+- graphs of features relation to target variable
+- l1 regularization on datasets
+- pval filter on dataset
+- pca on dataset
+- run models on updated datasets
+

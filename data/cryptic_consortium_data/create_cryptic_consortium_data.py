@@ -4,14 +4,15 @@ from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT / "data"
+CRYPTIC_DATA_DIR = PROJECT / "data" / "cryptic_consortium_data" / "data"
 
-mutations = DATA_DIR / "MUTATIONS.parquet"
-phenotypes =  DATA_DIR / "UKMYC_PHENOTYPES.parquet"
-drug_codes = DATA_DIR / "DRUG_CODES.csv.gz"
+mutations = CRYPTIC_DATA_DIR / "MUTATIONS.parquet"
+phenotypes = CRYPTIC_DATA_DIR / "UKMYC_PHENOTYPES.parquet"
+drug_codes = CRYPTIC_DATA_DIR / "DRUG_CODES.csv.gz"
 output = DATA_DIR / "cryptic_consortium_data.parquet"
 
 con = duckdb.connect()
-con.execute("SET memory_limit='30GB'")
+con.execute("SET memory_limit='10GB'")
 
 print("Creating cryptic_consortium_data.parquet...")
 

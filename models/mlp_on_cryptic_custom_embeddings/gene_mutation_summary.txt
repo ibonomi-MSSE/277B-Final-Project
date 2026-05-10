@@ -1,0 +1,57 @@
+=== Gene and Mutation Count Summary ===
+
+Total rows in database: 287,864,928
+Rows meeting all filtering criteria: 221,319,629
+Rows excluded (missing log2mic or other filters): 66,545,299
+
+Genes with at least 500 rows: 3886
+Total rows in genes with >= 500 counts: 221,312,743
+
+Mutations with at least 500 rows: 16038
+Total rows in mutations with >= 500 counts: 202,637,577
+Rows excluded (< 500 count threshold): 18,682,052
+
+
+=== Top 20 Genes by Count ===
+PE_PGRS4: 2,959,746
+ppsA: 2,211,171
+PPE55: 2,078,399
+PPE54: 2,054,282
+PE_PGRS28: 1,790,737
+pks12: 1,575,155
+PE_PGRS10: 1,457,016
+PE_PGRS57: 1,428,865
+lppB: 1,364,725
+Rv0278c: 1,237,149
+PE_PGRS54: 1,227,532
+Rv0095c: 1,163,819
+PE_PGRS27: 1,140,737
+PE_PGRS9: 1,134,441
+Rv0064: 823,685
+PE_PGRS18: 784,218
+aftD: 764,616
+Rv1148c: 745,165
+Rv2082: 731,377
+PPE34: 689,463
+
+=== Top 20 Mutations by Count ===
+pstA1_305.0cga>tga: 199,919
+Rv0890c_866.0ccc>gcc: 199,906
+pks4_217.0gcg>gca: 199,867
+nrp_2000.0gtt>gtg: 199,831
+Rv0919_141.0ttt>ttc: 199,826
+rplQ_4.0cct>ccc: 199,815
+Rv0323c_142.0agt>ggt: 199,790
+Rv3669_159.0gtg>gtc: 199,788
+Rv0966c_175.0gtg>gcg: 199,778
+pks3_489.0taa>tac: 199,766
+glyA1_36.0gta>gca: 199,764
+tesB1_121.0cac>ctc: 199,763
+Rv2377c_69.0gtc>gcc: 199,763
+corA_139.0aaa>gaa: 199,761
+ctpB_22.0ttg>tcg: 199,750
+mtc28_133.0ccc>ccg: 199,738
+ppsE_615.0gca>gcg: 199,738
+Rv2585c_128.0gca>gcc: 199,735
+lpqF_159.0gcg>gtg: 199,725
+ffh_35.0cgt>cgg: 199,721
